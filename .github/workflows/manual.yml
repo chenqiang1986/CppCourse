@@ -28,4 +28,4 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ../util/grade.sh
+          ../util/grade.sh First
