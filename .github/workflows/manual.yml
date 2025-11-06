@@ -14,7 +14,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        id: s1
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Changeset
+        id: s2
+        run: |
+          MERGE_BASE=$(git merge-base origin/main HEAD)
+          CHANGE_SET_WITH_NEW_LINE=$(git diff --relative --diff-filter=dr --name-only ${MERGE_BASE} -- '*')
+          CHANGE_SET=$(echo -n "$CHANGE_SET_WITH_NEW_LINE" | tr '\n' ' ')
+          echo "CHANGE_SET=$CHANGE_SET" >> $GITHUB_OUTPUT
 
       - name: Set up C++ environment
         run: sudo apt-get install g++
@@ -27,5 +38,6 @@ jobs:
 
       - name: Run tests
         run: |
+          echo ${{steps.s2.outputs.CHANGE_SET}}
           cd build
           sh ../util/grade.sh First
