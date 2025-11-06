@@ -14,6 +14,7 @@ jobs:
 
     steps:
       - name: Checkout code
+        id: s1
         uses: actions/checkout@v2
 
       - name: Set up C++ environment
@@ -27,5 +28,6 @@ jobs:
 
       - name: Run tests
         run: |
+          echo ${{steps.s1.outputs.CHANGE_SET}}
           cd build
           sh ../util/grade.sh First
