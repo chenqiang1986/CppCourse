@@ -23,7 +23,7 @@ jobs:
         id: s2
         run: |
           MERGE_BASE=$(git merge-base origin/main HEAD)
-          CHANGE_SET_WITH_NEW_LINE=$(git diff --relative --diff-filter=dr --name-only ${MERGE_BASE} -- '*' ':!subtrees/')
+          CHANGE_SET_WITH_NEW_LINE=$(git diff --relative --diff-filter=dr --name-only ${MERGE_BASE} -- '*')
           CHANGE_SET=$(echo -n "$CHANGE_SET_WITH_NEW_LINE" | tr '\n' ' ')
           echo "CHANGE_SET=$CHANGE_SET" >> $GITHUB_OUTPUT
 
