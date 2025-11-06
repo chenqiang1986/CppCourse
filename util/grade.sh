@@ -7,6 +7,7 @@ comp_value=$?
 
 if [ $comp_value -eq 1 ]
 then
+    echo "Add into Total"
     total_failure = $(($total_failure+1))
     echo "Test Case 1 Failed"
 else
@@ -18,6 +19,7 @@ comp_value=$?
 
 if [ $comp_value -eq 1 ]
 then
+    echo "Add into Total"
     total_failure = $(($total_failure+1))
     echo "Test Case 2 Failed"
 else
