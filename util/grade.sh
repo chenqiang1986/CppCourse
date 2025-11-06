@@ -13,7 +13,6 @@ else
     echo "Test Case 1 Passed"
 fi
 
-
 diff --brief $1.out $1.out >/dev/null
 comp_value=$?
 
