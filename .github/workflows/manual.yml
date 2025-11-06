@@ -28,5 +28,4 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ./First > First.out
-          diff First.out ../First.out
+          ../util/grade.sh
