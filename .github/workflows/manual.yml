@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         id: s1
-        uses: actions/checkout@v2
+        uses: chenqiang1986/CppCourse@main
 
       - name: Set up C++ environment
         run: sudo apt-get install g++
