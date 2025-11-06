@@ -27,3 +27,4 @@ else
 fi
 
 echo "$total_failure Failures"
+exit $total_failure
