@@ -28,4 +28,5 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ./First
+          ./First > First.out
+          diff First.out ../First.out
