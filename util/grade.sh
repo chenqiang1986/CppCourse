@@ -1,30 +1,29 @@
-./$1 > $1.out
+input=$1
 
-total_failure=0
+read -ra arr <<< "$input"
 
-diff --brief ../$1.out ../$1.out >/dev/null
-comp_value=$?
+for val in "${arr[@]}"; do
+   printf "file: $val\n"
+   if [[ $val == *.cpp ]]
+   then
+       base_name=$(basename $val)
+       non_ext_base_name=${base_name%.*}
+       
+       echo " - Run Target: build/$non_ext_base_name"
+       build/$non_ext_base_name > build/$non_ext_base_name.out
 
-if [ $comp_value -eq 1 ]
-then
-    echo "Add into Total"
-    total_failure=$((total_failure+1))
-    echo "Test Case 1 Failed"
-else
-    echo "Test Case 1 Passed"
-fi
-
-diff --brief $1.out $1.out >/dev/null
-comp_value=$?
-
-if [ $comp_value -eq 1 ]
-then
-    echo "Add into Total"
-    total_failure=$((total_failure+1))
-    echo "Test Case 2 Failed"
-else
-    echo "Test Case 2 Passed"
-fi
+       diff --brief $non_ext_base_name.out build/$non_ext_base_name.out >/dev/null
+       comp_value=$?
+       if [ $comp_value -eq 1 ]
+       then
+           echo "Add into Total"
+           total_failure=$((total_failure+1))
+           echo "Test Case 1 Failed"
+       else
+           echo "Test Case 1 Passed"
+       fi
+   fi
+done
 
 echo "$total_failure Failures"
 exit $total_failure
