@@ -9,6 +9,7 @@ for val in "${arr[@]}"; do
        base_name=$(basename $val)
        non_ext_base_name=${base_name%.*}
        echo "CPP: $non_ext_base_name"
+       g++ -g $val -o build/$non_ext_base_name
    fi
 done
 
