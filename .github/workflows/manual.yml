@@ -34,5 +34,5 @@ jobs:
         run: |
           mkdir build
           echo ${{steps.s2.outputs.CHANGE_SET}}
-          sh util/build_cpp.sh ${{steps.s2.outputs.CHANGE_SET}}
+          sh util/build_cpp.sh "${{steps.s2.outputs.CHANGE_SET}}"
 
