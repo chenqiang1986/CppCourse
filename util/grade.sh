@@ -13,7 +13,7 @@ for val in "${arr[@]}"; do
        i=1
        while :
        do
-          if [ $i -eq 3 ]; then
+          if [ ! -f answers/$non_ext_base_name/$i.in ]; then
               echo "This is the end of the loop"
               break
           fi
