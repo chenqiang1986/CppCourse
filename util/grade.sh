@@ -10,9 +10,10 @@ for val in "${arr[@]}"; do
        non_ext_base_name=${base_name%.*}
        
        echo " - Run Target: build/$non_ext_base_name"
-       build/$non_ext_base_name > build/$non_ext_base_name.out
+       echo "   - Run Test Case 1"
+       build/$non_ext_base_name < answers/$non_ext_base_name/1.in > build/$non_ext_base_name.out
 
-       diff --brief $non_ext_base_name.out build/$non_ext_base_name.out >/dev/null
+       diff --brief answers/$non_ext_base_name/1.out build/$non_ext_base_name.out >/dev/null
        comp_value=$?
        if [ $comp_value -eq 1 ]
        then
