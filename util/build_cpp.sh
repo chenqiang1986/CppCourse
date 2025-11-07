@@ -3,7 +3,7 @@ input=$1
 read -ra arr <<< "$input"
 
 for val in "${arr[@]}"; do
-   if [ $val in *.cpp) ]
+   if [[ $val == *.cpp ]]
    then
        echo "CPP"
    fi
