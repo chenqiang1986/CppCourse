@@ -7,7 +7,8 @@ for val in "${arr[@]}"; do
    if [[ $val == *.cpp ]]
    then
        base_name=$(basename $val)
-       echo "CPP: $base_name"
+       non_ext_base_name=${base_name%.*}
+       echo "CPP: $non_ext_base_name"
    fi
 done
 
