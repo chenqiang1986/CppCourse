@@ -13,15 +13,14 @@ for val in "${arr[@]}"; do
        echo "   - Run Test Case 1"
        build/$non_ext_base_name < answers/$non_ext_base_name/1.in > build/$non_ext_base_name.out
 
-       diff --brief answers/$non_ext_base_name/1.out build/$non_ext_base_name.out >/dev/null
+       diff answers/$non_ext_base_name/1.out build/$non_ext_base_name.out >/dev/null
        comp_value=$?
        if [ $comp_value -eq 1 ]
        then
-           echo "Add into Total"
            total_failure=$((total_failure+1))
-           echo "Test Case 1 Failed"
+           echo "   - Test Case 1 Failed"
        else
-           echo "Test Case 1 Passed"
+           echo "   - Test Case 1 Passed"
        fi
    fi
 done
