@@ -8,8 +8,12 @@ for val in "${arr[@]}"; do
    then
        base_name=$(basename $val)
        non_ext_base_name=${base_name%.*}
-       echo "CPP: $non_ext_base_name"
+       echo " - Build CPP: build/$non_ext_base_name"
        g++ -g $val -o build/$non_ext_base_name
    fi
 done
+
+echo "list of files under build/"
+
+ls build/
 
