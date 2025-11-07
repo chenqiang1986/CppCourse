@@ -12,13 +12,14 @@ for val in "${arr[@]}"; do
        echo " - Run Target: build/$non_ext_base_name"
        echo "   - Run Test Case 1"
        build/$non_ext_base_name < answers/$non_ext_base_name/1.in > build/$non_ext_base_name.out
-
-       diff answers/$non_ext_base_name/1.out build/$non_ext_base_name.out >/dev/null
+       
+       diff -q answers/$non_ext_base_name/1.out build/$non_ext_base_name.out >/dev/null
        comp_value=$?
        if [ $comp_value -eq 1 ]
        then
            total_failure=$((total_failure+1))
-           echo "   - Test Case 1 Failed"
+           echo "   - Test Case 1 Failed, See Diff Below"
+           diff answers/$non_ext_base_name/1.out build/$non_ext_base_name.out
        else
            echo "   - Test Case 1 Passed"
        fi
