@@ -13,10 +13,16 @@ run_cpp_target() {
        
        echo "   - Run Test Case $i"
        timeout 10s build/$non_ext_base_name < answers/$non_ext_base_name/$i.in > build/$non_ext_base_name.out
+       execute_exit_code=$?
+       echo "   - Exit code $execute_exit_code"
        
        diff -q answers/$non_ext_base_name/$i.out build/$non_ext_base_name.out >/dev/null
-       comp_value=$?
-       if [ $comp_value -eq 1 ]
+       diff_exit_code=$?
+       if [ $execute_exit_code -ne 0]
+       then
+          total_failure=$((total_failure+1))
+          echo "  - Test Case $i Finish with Error."
+       elif [ $comp_value -eq 1 ]
        then
            total_failure=$((total_failure+1))
            echo "   - Test Case $i Failed, See Diff Below"
