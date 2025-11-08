@@ -45,6 +45,7 @@ run_cpp_target() {
     if [ $i -eq 1 ]
     then
        echo "No Test Case Data for $non_ext_base_name, Double Check Your Filename."
+       exit 1
     fi
 }
 
