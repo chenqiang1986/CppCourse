@@ -4,6 +4,11 @@ read -ra arr <<< "$input"
 
 run_cpp_target() {
     i=1
+    total_failure=0
+    total_timeout=0
+    total_execution_error=0
+    total_diff=0
+    total_pass=0
     while :
     do
        if [ ! -f answers/$non_ext_base_name/$i.in ]; then
@@ -18,16 +23,24 @@ run_cpp_target() {
        
        diff -q answers/$non_ext_base_name/$i.out build/$non_ext_base_name.out >/dev/null
        diff_exit_code=$?
-       if [ $execute_exit_code -ne 0 ]
+       if [ $execute_exit_code -eq 124 ]
        then
-          total_failure=$((total_failure+1))
-          echo "  - Test Case $i Finish with Error."
+           total_failure=$((total_failure+1))
+           total_timeout=$((total_timeout+1))
+           echo "  - Test Case $i Timeout."
+       elif [ $execute_exit_code -ne 0 ]
+       then
+           total_failure=$((total_failure+1))
+           total_execution_error=$((total_execution_error+1))
+           echo "  - Test Case $i Finish with Execution Error."
        elif [ $diff_exit_code -eq 1 ]
        then
            total_failure=$((total_failure+1))
-           echo "   - Test Case $i Failed, See Diff Below"
+           total_diff=$((total_diff+1))
+           echo "   - Test Case $i Finish with Wrong Answer, See Diff Below"
            diff answers/$non_ext_base_name/$i.out build/$non_ext_base_name.out
        else
+           total_pass=$((total_pass+1))
            echo "   - Test Case $i Passed"
        fi
        echo " "
@@ -46,5 +59,10 @@ for val in "${arr[@]}"; do
    fi
 done
 
-echo "$total_failure Failures"
+echo "Passed Case: $total_pass"
+echo "Failed Cases: $total_failure"
+echo " - Timeout Case: $total_timeout"
+echo " - Execution Error: $total_execution_error"
+echo " - Wrong Answer: $total_diff"
+echo "Pass Rate: $((total_pass/(total_failre+total_pass)))"
 exit $total_failure
