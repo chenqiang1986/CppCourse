@@ -1,0 +1,17 @@
+Given a map, namely a 2d array of integers where 1 means land, 0 means water.
+Find the area of the largest lake.
+A lake means connected component of water region.
+
+Example
+Map:
+1 0 1 1
+1 1 0 0
+1 1 0 0
+Answer is 4, as the 2x2 lake on the right lower corner is the biggest one.
+
+Input format:
+First line contains two integers N, M
+For the next N lines, each line contains M integers, representing the map.
+
+Output format:
+A line with the Largest Lake Area.
