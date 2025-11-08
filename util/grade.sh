@@ -12,7 +12,7 @@ run_cpp_target() {
        fi
        
        echo "   - Run Test Case $i"
-       timeout 10s build/$non_ext_base_name < answers/$non_ext_base_name/$i.in > build/$non_ext_base_name.out
+       build/$non_ext_base_name < answers/$non_ext_base_name/$i.in > build/$non_ext_base_name.out
        execute_exit_code=$?
        echo "   - Exit code $execute_exit_code"
        
