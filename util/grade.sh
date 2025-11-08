@@ -18,7 +18,7 @@ run_cpp_target() {
        
        diff -q answers/$non_ext_base_name/$i.out build/$non_ext_base_name.out >/dev/null
        diff_exit_code=$?
-       if [ $execute_exit_code -ne 0]
+       if [ $execute_exit_code -ne 0 ]
        then
           total_failure=$((total_failure+1))
           echo "  - Test Case $i Finish with Error."
