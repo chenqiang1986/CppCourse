@@ -15,11 +15,11 @@ struct Coord{
     }
 };
 
-bool is_valid(std::vector<std::vector<int>>& map, Coord& point, std::set<Coord>& visited){
+bool is_valid(const std::vector<std::vector<int>>& map, const Coord& point, const std::set<Coord>& visited){
     return (point.row >= 0 && point.row < map.size()) && (point.col >= 0 && point.col < map[0].size()) && (map[point.row][point.col] == 0 && visited.count(point) == 0);
 }
 
-int dfs(std::vector<std::vector<int>>& map, Coord& start, std::set<Coord>& visited){
+int dfs(const std::vector<std::vector<int>>& map, const Coord& start, std::set<Coord>& visited){
     int total_count = 1;
     visited.insert(start);
     for(int i = 0; i < 4; i++){
@@ -31,13 +31,13 @@ int dfs(std::vector<std::vector<int>>& map, Coord& start, std::set<Coord>& visit
     return total_count;
 }
 
-int find_greatest_lake_size(std::vector<std::vector<int>>& map){
+int find_greatest_lake_size(const std::vector<std::vector<int>>& map){
     std::set<Coord> visited;
     int max_size = 0;
     for(int i = 0; i < map.size(); i++){
         for(int j = 0; j < map[i].size(); j++){
             Coord start = Coord{.row = i, .col = j};
-            if(visited.count(start) == 0 && map[i][j] == 0){
+            if(is_valid(map, start, visited)){
                 max_size = std::max(dfs(map, start, visited), max_size);
             }
         }
@@ -48,7 +48,7 @@ int find_greatest_lake_size(std::vector<std::vector<int>>& map){
 int main(){
     int n, m;
     std::cin >> n >> m;
-    std::vector<std::vector<int>> map(n, std::vector<int> (m, 0));
+    std::vector<std::vector<int>> map(n, std::vector<int> (m, 1));
     for(int i = 0; i < n; i++){
         for(int j = 0; j < m; j++){
             std::cin >> map[i][j];
