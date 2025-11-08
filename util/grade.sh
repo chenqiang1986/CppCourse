@@ -19,7 +19,7 @@ for val in "${arr[@]}"; do
           fi
           
           echo "   - Run Test Case $i"
-          build/$non_ext_base_name < answers/$non_ext_base_name/$i.in > build/$non_ext_base_name.out
+          timeout 10s build/$non_ext_base_name < answers/$non_ext_base_name/$i.in > build/$non_ext_base_name.out
           
           diff -q answers/$non_ext_base_name/$i.out build/$non_ext_base_name.out >/dev/null
           comp_value=$?
