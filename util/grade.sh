@@ -22,7 +22,7 @@ run_cpp_target() {
        then
           total_failure=$((total_failure+1))
           echo "  - Test Case $i Finish with Error."
-       elif [ $comp_value -eq 1 ]
+       elif [ $diff_exit_code -eq 1 ]
        then
            total_failure=$((total_failure+1))
            echo "   - Test Case $i Failed, See Diff Below"
