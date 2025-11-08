@@ -1,6 +1,6 @@
 #include <iostream>
 
 int main() {
-    throw "some exception";
+    while(true) {}
     std::cout << "some text"<< std::endl;
 }
