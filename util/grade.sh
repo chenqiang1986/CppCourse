@@ -4,11 +4,6 @@ read -ra arr <<< "$input"
 
 run_cpp_target() {
     i=1
-    total_failure=0
-    total_timeout=0
-    total_execution_error=0
-    total_diff=0
-    total_pass=0
     while :
     do
        if [ ! -f answers/$non_ext_base_name/$i.in ]; then
@@ -46,7 +41,18 @@ run_cpp_target() {
        echo " "
        ((i++))
     done
+
+    if [ $i -eq 1 ]
+    then
+       echo "No Test Case Data for $non_ext_base_name, Double Check Your Filename."
+    fi
 }
+
+total_failure=0
+total_timeout=0
+total_execution_error=0
+total_diff=0
+total_pass=0
 
 for val in "${arr[@]}"; do
    if [[ $val == *.cpp ]]
@@ -64,5 +70,5 @@ echo "Failed Cases: $total_failure"
 echo " - Timeout Case: $total_timeout"
 echo " - Execution Error: $total_execution_error"
 echo " - Wrong Answer: $total_diff"
-echo "Pass Rate: $((total_pass/(total_failre+total_pass)))"
+echo "Pass Rate: $((total_pass/(total_failure+total_pass)))"
 exit $total_failure
