@@ -14,7 +14,7 @@ std::vector<int> find_count_cows_under(const std::vector<int>& stalls, const std
                 break;
             }
         }
-        count_cows_under.push_back[count];
+        count_cows_under.push_back(count);
     }
     return count_cows_under;
 }
