@@ -5,16 +5,30 @@
 std::vector<int> find_count_cows_under(const std::vector<int>& stalls, const std::vector<int>& cows){
     std::vector<int> count_cows_under;
     for(int i = 0; i < stalls.size(); i++){
-        int count = 0;
-        for(int j = 0; j < cows.size(); j++){
-            if(stalls[i] >= cows[j]){
-                count++;
+        if(i == 0){
+            int count = 0;
+            for(int j = 0; j < cows.size(); j++){
+                if(stalls[i] >= cows[j]){
+                    count++;
+                }
+                else{
+                    break;
+                }
             }
-            else{
-                break;
-            }
+            count_cows_under.push_back(count);
         }
-        count_cows_under.push_back(count);
+        else{
+            int count = count_cows_under[i - 1];
+            for(int j = count_cows_under[i - 1]; j < cows.size(); j++){
+                if(stalls[i] >= cows[j]){
+                    count++;
+                }
+                else{
+                    break;
+                }
+            }
+            count_cows_under.push_back(count);
+        }
     }
     return count_cows_under;
 }
