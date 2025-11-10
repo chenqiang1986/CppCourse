@@ -39,19 +39,9 @@ int main(){
     std::sort(stalls.begin(), stalls.end());
     std::vector<int> count_cows_under = find_count_cows_under(stalls, cows);
     long long num_ways = 1;
-    bool broken_out = false;
     for(int i = 0; i < count_cows_under.size(); i++){
-        num_ways *= count_cows_under[i] - i;
-        if(num_ways <= 0){
-            broken_out = true;
-            break;
-        }
+        num_ways *= std::max(0, count_cows_under[i] - i);
     }
-    if(broken_out){
-        std::cout << 0 << std::endl;
-    }
-    else{
-        std::cout << num_ways << std::endl;
-    }
+    std::cout << num_ways << std::endl;
     return 0;
 }
