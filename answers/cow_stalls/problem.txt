@@ -1,0 +1,9 @@
+USACA Bronze 2021_Jan 3.
+
+Farmer John has N cows (1≤N≤20) of heights a1…aN. His barn has N stalls with max height limits b1…bN (so for example, if b5=17, then a cow of height at most 17 can reside in stall 5). In how many distinct ways can Farmer John arrange his cows so that each cow is in a different stall, and so that the height limit is satisfied for every stall?
+INPUT FORMAT (input arrives from the terminal / stdin):
+
+The first line contains N. The second line contains N space-separated integers a1,a2,…,aN. The third line contains N space-separated integers b1,b2,…,bN. All heights and limits are in the range [1,109].
+OUTPUT FORMAT (print output to the terminal / stdout):
+
+The number of ways Farmer John can place each cow into a different stall such that the height limit is satisfied for every stall. Note that the large size of the output might require the use of a 64-bit integer, like a "long long" in C++.
