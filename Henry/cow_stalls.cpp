@@ -3,29 +3,19 @@
 #include <vector>
 
 int find_count_cows_under_single(const std::vector<int>& stalls, const std::vector<int>& cows, int init, int i){
-    int count = init;
     for(int j = init; j < cows.size(); j++){
-        if(stalls[i] >= cows[j]){
-            count++;
-        }
-        else{
-            break;
+        if(stalls[i] < cows[j]){
+            return j;
         }
     }
-    return count;
+    return cows.size();
 }
 
 std::vector<int> find_count_cows_under(const std::vector<int>& stalls, const std::vector<int>& cows){
     std::vector<int> count_cows_under;
     for(int i = 0; i < stalls.size(); i++){
-        if(i == 0){
-            int count = find_count_cows_under_single(stalls, cows, 0, i);
-            count_cows_under.push_back(count);
-        }
-        else{
-            int count = find_count_cows_under_single(stalls, cows, count_cows_under[i - 1], i);
-            count_cows_under.push_back(count);
-        }
+        int count = find_count_cows_under_single(stalls, cows, i == 0 ? 0 : count_cows_under[i - 1], i);
+        count_cows_under.push_back(count);
     }
     return count_cows_under;
 }
