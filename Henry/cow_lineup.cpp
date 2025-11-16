@@ -10,10 +10,7 @@ long find_min_length(const std::vector<long>& breeds, const std::vector<long>& p
     int end = 0;
     std::map<int, int> running = {{breeds[0], 1}};
     while(end < breeds.size()){
-        int breed_count = 0;
-        for(auto [breed, count] : running){
-            breed_count += count > 0 ? 1 : 0;
-        }
+        int breed_count = running.size();
         if(breed_count < total_breed_count){
             end++;
             if(end < breeds.size()){
@@ -23,6 +20,9 @@ long find_min_length(const std::vector<long>& breeds, const std::vector<long>& p
         else if(breed_count == total_breed_count){
             min_length = std::min(min_length, positions[end] - positions[start]);
             running[breeds[start]]--;
+            if(running[breeds[start]] == 0){
+                running.erase(breeds[start]);
+            }
             start++;
         }
     }
