@@ -1,0 +1,25 @@
+mv I.1 1.in
+mv I.2 2.in
+mv I.3 3.in
+mv I.4 4.in
+mv I.5 5.in
+mv I.6 6.in
+mv I.7 7.in
+mv I.8 8.in
+mv I.9 9.in
+mv I.10 10.in
+mv I.11 11.in
+mv I.12 12.in
+mv O.1 1.out 
+mv O.2 2.out
+mv O.3 3.out
+mv O.4 4.out
+mv O.5 5.out
+mv O.6 6.out
+mv O.7 7.out
+mv O.8 8.out
+mv O.9 9.out
+mv O.10 10.out
+mv O.11 11.out
+mv O.12 12.out
+
