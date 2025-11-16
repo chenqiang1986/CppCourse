@@ -19,11 +19,6 @@ int dfs(const std::vector<int>& curr_tiles, int target_area, int curr_index){
     return min_cost;
 }
 
-int find_min_cost(const std::vector<int>& curr_tiles, int m){
-    int min_cost = 1000000000;
-
-}
-
 int main(){
     int n, m;
     std::cin >> n >> m;
@@ -33,7 +28,7 @@ int main(){
         std::cin >> tile;
         curr_tiles.push_back(tile);
     }
-    int min_cost = find_min_cost(curr_tiles, m);
+    int min_cost = dfs(curr_tiles, m, 0);
     if(min_cost >= 1000000){
         std::cout << -1 << std::endl;
     }
