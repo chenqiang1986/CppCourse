@@ -77,7 +77,7 @@ int find_shortest_dist(CCPair& cc_pair, std::map<int, std::set<Coord>>& cc_to_po
     return min_dist;
 }
 
-int find_shortest_total_sperate(std::map<int, std::set<Coord>>& cc_to_points){
+int find_shortest_total_seperate(std::map<int, std::set<Coord>>& cc_to_points){
     int total = 0;
     int added_in = 0;
     std::map<CCPair, int> cc_pair_to_shortest_dist;
@@ -91,10 +91,11 @@ int find_shortest_total_sperate(std::map<int, std::set<Coord>>& cc_to_points){
             cc_pair_to_shortest_dist[cc_pair] = find_shortest_dist(cc_pair, cc_to_points);
         }
     }
-    std::set<int> shortest_dists;
+    std::vector<int> shortest_dists;
     for(auto [cc_pair, dist] : cc_pair_to_shortest_dist){
-        shortest_dists.insert(dist);
+        shortest_dists.push_back(dist);
     }
+    std::sort(shortest_dists.begin(), shortest_dists.end());
     for(auto dist : shortest_dists){
         if(added_in < 2){
             total += dist;
@@ -140,6 +141,9 @@ int main(){
     std::map<Coord, int> point_to_cc;
     std::map<int, std::set<Coord>> cc_to_points;
     find_cc(cow, point_to_cc, cc_to_points);
-    std::cout << std::min(find_shortest_total_sperate(cc_to_points), find_shortest_total_combined(cc_to_points, n, m)) << std::endl;
+
+    int separate_min = find_shortest_total_seperate(cc_to_points);
+    int combined_min = find_shortest_total_combined(cc_to_points, n, m);
+    std::cout << std::min(separate_min, combined_min) << std::endl;
     return 0;
 }
