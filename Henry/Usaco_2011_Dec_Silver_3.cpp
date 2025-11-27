@@ -1,10 +1,10 @@
 #include <algorithm>
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <set>
 #include <vector>
 
-void optimize(std::map<int, int>& size_to_cost){
+void optimize(std::unordered_map<int, int>& size_to_cost){
     int min = 2100000000;
     for(int i = size_to_cost.size(); i > 0; i--){
         min = std::min(min, size_to_cost[i]);
@@ -12,7 +12,7 @@ void optimize(std::map<int, int>& size_to_cost){
     }
 }
 
-int find_min_cost(const std::vector<int>& cow_positions, std::map<int, int>& size_to_cost, int starting_index, std::map<int, int>& cache){
+int find_min_cost(const std::vector<int>& cow_positions, std::unordered_map<int, int>& size_to_cost, int starting_index, std::unordered_map<int, int>& cache){
     if(cache.count(starting_index) != 0){
         return cache[starting_index];
     }
@@ -33,7 +33,7 @@ int main(){
     int n, m;
     std::cin >> n >> m;
     std::vector<int> cow_positions;
-    std::map<int, int> size_to_cost;
+    std::unordered_map<int, int> size_to_cost;
     for(int i = 0; i < n; i++){
         int cow_pos;
         std::cin >> cow_pos;
@@ -46,7 +46,7 @@ int main(){
         size_to_cost[i] = cost;
     }
     optimize(size_to_cost);
-    std::map<int, int> cache;
+    std::unordered_map<int, int> cache;
     std::cout << find_min_cost(cow_positions, size_to_cost, 0, cache) << std::endl;
     return 0;
 }
