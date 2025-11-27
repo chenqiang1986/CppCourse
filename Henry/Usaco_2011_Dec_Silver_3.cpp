@@ -12,7 +12,7 @@ void optimize(std::map<int, int>& size_to_cost){
     }
 }
 
-int find_min_cost(const std::vector<int>& cow_positions, std::map<int, int> size_to_cost, int starting_index, std::map<int, int>& cache){
+int find_min_cost(const std::vector<int>& cow_positions, std::map<int, int>& size_to_cost, int starting_index, std::map<int, int>& cache){
     if(cache.count(starting_index) != 0){
         return cache[starting_index];
     }
