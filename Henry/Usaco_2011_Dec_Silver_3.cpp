@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include <vector>
 
 int find_min_cost(const std::vector<int>& cow_positions, std::map<int, int> size_to_cost, int starting_index){
     if(starting_index >= cow_positions.size()){
