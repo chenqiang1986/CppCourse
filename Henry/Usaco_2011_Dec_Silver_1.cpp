@@ -3,115 +3,43 @@
 #include <set>
 #include <vector>
 
-struct IsGreaterThan{
-    // A is greater than B
-    int a;
-    int b;
-};
+struct Cow{
+    int id;
+    std::vector<std::map<int, int>>* cow_to_locations;
 
-std::vector<IsGreaterThan> find_comparators(
-    std::vector<int>& photo1, 
-    std::vector<int>& photo2, 
-    std::vector<int>& photo3, 
-    std::vector<int>& photo4, 
-    std::vector<int>& photo5, 
-    std::map<int, int>& cow_to_location1, 
-    std::map<int, int>& cow_to_location2, 
-    std::map<int, int>& cow_to_location3, 
-    std::map<int, int>& cow_to_location4, 
-    std::map<int, int>& cow_to_location5
-){
-    std::vector<IsGreaterThan> comparators;
-    for(int i = 0; i < photo1.size(); i++){
-        for(int j = 0; j < photo1.size(); j++){
-            if(i < j){
-                int num_times_first_less_than_second = 1;
-                if(cow_to_location2[photo1[i]] < cow_to_location2[photo1[j]]){
-                    num_times_first_less_than_second++;
-                }
-                if(cow_to_location3[photo1[i]] < cow_to_location3[photo1[j]]){
-                    num_times_first_less_than_second++;
-                }
-                if(cow_to_location4[photo1[i]] < cow_to_location4[photo1[j]]){
-                    num_times_first_less_than_second++;
-                }
-                if(cow_to_location5[photo1[i]] < cow_to_location5[photo1[j]]){
-                    num_times_first_less_than_second++;
-                }
-                if(num_times_first_less_than_second <= 2){
-                    comparators.push_back(IsGreaterThan{.a = photo1[i], .b = photo1[j]});
-                }
-                else{
-                    comparators.push_back(IsGreaterThan{.a = photo1[j], .b = photo1[i]});
-                }
+    bool operator<(const Cow& other)const{
+        int num_times_less_than = 0;
+        for(int i = 0; i < 5; i++){
+            if((*cow_to_locations)[i][id] < (*cow_to_locations)[i][other.id]){
+                num_times_less_than++;
             }
         }
+        return num_times_less_than >= 3;
     }
-    return comparators;
-}
+};
 
 int main(){
     int n;
     std::cin >> n;
     std::set<int> cows;
-    std::vector<int> photo1;
-    std::vector<int> photo2;
-    std::vector<int> photo3;
-    std::vector<int> photo4;
-    std::vector<int> photo5;
-    std::map<int, int> cow_to_location1;
-    std::map<int, int> cow_to_location2;
-    std::map<int, int> cow_to_location3;
-    std::map<int, int> cow_to_location4;
-    std::map<int, int> cow_to_location5;
-    for(int i = 0; i < n; i++){
-        int cow;
-        std::cin >> cow;
-        photo1.push_back(cow);
-        cow_to_location1[cow] = i;
-        cows.insert(cow);
+    std::vector<std::map<int, int>> cow_to_locations;
+    for(int j = 0; j < 5; j++){
+        std::map<int, int> cow_to_location;
+        for(int i = 0; i < n; i++){
+            int cow;
+            std::cin >> cow;
+            cow_to_location[cow] = i;
+            cows.insert(cow);
+        }
+        cow_to_locations.push_back(cow_to_location);
     }
-    for(int i = 0; i < n; i++){
-        int cow;
-        std::cin >> cow;
-        photo2.push_back(cow);
-        cow_to_location2[cow] = i;
-    }
-    for(int i = 0; i < n; i++){
-        int cow;
-        std::cin >> cow;
-        photo3.push_back(cow);
-        cow_to_location3[cow] = i;
-    }
-    for(int i = 0; i < n; i++){
-        int cow;
-        std::cin >> cow;
-        photo4.push_back(cow);
-        cow_to_location4[cow] = i;
-    }
-    for(int i = 0; i < n; i++){
-        int cow;
-        std::cin >> cow;
-        photo5.push_back(cow);
-        cow_to_location5[cow] = i;
-    }
-    std::vector<IsGreaterThan> comparators = find_comparators(photo1, photo2, photo3, photo4, photo5, cow_to_location1, cow_to_location2, cow_to_location3, cow_to_location4, cow_to_location5);
-    std::map<int, int> cow_to_index;
-    for(int i = 0; i < comparators.size(); i++){
-        cow_to_index[comparators[i].a]++;
-    }
-    std::vector<int> row_of_cows (n, 0);
-    for(auto [cow, index] : cow_to_index){
-        row_of_cows[index] = cow;
-    }
-    for(int i = 1; i < n; i++){
-        cows.erase(row_of_cows[i]);
-    }
+    std::vector<Cow> row_of_cows;
     for(auto cow : cows){
-        row_of_cows[0] = cow;
+        row_of_cows.push_back(Cow{.id = cow, .cow_to_locations = &cow_to_locations});
     }
+    std::sort(row_of_cows.begin(), row_of_cows.end());
     for(int i = 0; i < n; i++){
-        std::cout << row_of_cows[i] << std::endl;
+        std::cout << row_of_cows[i].id << std::endl;
     }
     return 0;
 }
