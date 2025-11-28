@@ -71,5 +71,5 @@ echo "Failed Cases: $total_failure"
 echo " - Timeout Case: $total_timeout"
 echo " - Execution Error: $total_execution_error"
 echo " - Wrong Answer: $total_diff"
-echo "Pass Rate: $((total_pass/(total_failure+total_pass)))"
+echo "Pass Rate: $((total_pass * 100/(total_failure+total_pass)))"
 exit $total_failure
