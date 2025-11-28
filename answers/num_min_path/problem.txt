@@ -1,0 +1,19 @@
+Given a weighted directional graph, and two nodes start and end, output the number of different paths from start to end such that the total length is minimal.
+
+Example:
+1-->2 edge length 1
+1-->3 edge length 2
+2-->4 edge length 3
+3-->4 edge length 2
+
+start=1 end=2
+Then we have 2 minimal paths: 1-->2-->4 and 1-->3-->4
+
+Input format:
+First line n, m, indicating the number of vertices and edges in the graph
+In the following m lines, each line 3 numbers, a,b,l: it means a directional edge from a to b with length l. 
+Note directional edge means, you cannot use this edge from b to a.
+
+Output format:
+Two numbers, the first number is the length of the min path.
+The second number is the number of ways to form the min path.
