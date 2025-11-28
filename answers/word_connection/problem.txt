@@ -27,4 +27,4 @@ Next 1 line containing starting word.
 Next 1 line containing ending word.
 
 Output
-A number means the smallest total overlap length of the sequence.
+A number meaning the smallest total overlap length of the sequence.
