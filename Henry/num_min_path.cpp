@@ -64,7 +64,6 @@ int main(){
         int start, end, length;
         std::cin >> start >> end >> length;
         farm[start][end] = length;
-        farm[end][start] = length;
     }
     std::optional<int> min_dist;
     std::optional<int> min_dist_ways;
