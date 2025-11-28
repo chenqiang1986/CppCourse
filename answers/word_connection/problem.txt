@@ -1,0 +1,30 @@
+Given a list of words, a starting word, and an ending word.
+
+Find the smallest total overlap length of the sequence of words from the given list such that
+1. The first word is the starting word.
+2. The last word is the ending word.
+3. Any adjacent two words, must have the property that the previous word's some suffix is the next words's some prefix.
+
+Overlap length is the length of the string with words connected while ignoring the common part.
+
+Example:
+
+Given:
+
+abc
+bcd
+def
+
+with starting='abc' and ending='def'.
+
+The shortest sequence is ['abc', 'bcd', 'def'], the overlap length is 6, because the connected string is 'abcdef'.
+Note that when connecting 'abc' and 'bcd' together, we get 'abcd', with 'bc' being the common part, we do not repeat.
+
+Input format
+First line N -- number of words
+Next N lines each line a word.
+Next 1 line containing starting word.
+Next 1 line containing ending word.
+
+Output
+A number means the smallest total overlap length of the sequence.
