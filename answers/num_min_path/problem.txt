@@ -6,11 +6,11 @@ Example:
 2-->4 edge length 3
 3-->4 edge length 2
 
-start=1 end=2
+start=1 end=4
 Then we have 2 minimal paths: 1-->2-->4 and 1-->3-->4
 
 Input format:
-First line n, m, indicating the number of vertices and edges in the graph
+First line n, m, s t, indicating the number of vertices and edges in the graph, the path needs to start at s and end at t.
 In the following m lines, each line 3 numbers, a,b,l: it means a directional edge from a to b with length l. 
 Note directional edge means, you cannot use this edge from b to a.
 
