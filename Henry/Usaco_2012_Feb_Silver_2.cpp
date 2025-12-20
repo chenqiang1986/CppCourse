@@ -27,25 +27,33 @@ int main(){
         running_num_of_nums += choose_thing;
         num_of_0s++;
     }
-    std::vector<int> space_to_num_of_0s(k, 0);
-    space_to_num_of_0s[0] = num_of_0s;
-    running_num_of_nums++;
-    while(running_num_of_nums < n){
-        int last_with_num_index_able_to_move = 0;
-        for(int i = 0; i < k - 1; i++){
-            if(space_to_num_of_0s[i] > 0){
-                last_with_num_index_able_to_move = i;
-            }
+    std::vector<int> nums(k + num_of_0s, 0);
+    nums[0] = 1;
+    int num_of_1s = k - 1;
+    for(int i = 1; i < nums.size(); i++){
+        if(num_of_0s == 0){
+            nums[i] = 1;
+            num_of_1s--;
+            continue;
         }
-        space_to_num_of_0s[last_with_num_index_able_to_move] -= 1;
-        space_to_num_of_0s[last_with_num_index_able_to_move + 1] += 1;
-        running_num_of_nums++;
+        if(num_of_1s == 0){
+            nums[i] = 0;
+            num_of_0s--;
+            continue;
+        }
+        int choose_thing = choose(num_of_0s + num_of_1s - 1 , num_of_1s);
+        if(running_num_of_nums + choose_thing >= n){
+            nums[i] = 0;
+            num_of_0s--;
+        }
+        else{
+            running_num_of_nums += choose_thing;
+            nums[i] = 1;
+            num_of_1s--;
+        }
     }
-    for(int i = 0; i < k; i++){
-        std::cout << 1;
-        for(int j = 0; j < space_to_num_of_0s[i]; j++){
-            std::cout << 0;
-        }
+    for(int i = 0; i < nums.size(); i++){
+        std::cout << nums[i];
     }
     std::cout << std::endl;
     return 0;
