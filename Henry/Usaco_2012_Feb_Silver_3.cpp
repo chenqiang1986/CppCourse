@@ -1,52 +1,45 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <set>
 #include <unordered_set>
 #include <vector>
 
-int find_non_visited_node_closest_to_s(std::map<int, int> & distance_to_s, std::unordered_set<int>& visited){
-    int answer = -1;
-    int min_distance = 2100000000;
+struct NodeDistPair{
+    int node;
+    int dist;
 
-    for (auto& [node, distance]: distance_to_s) {
-        if (visited.count(node) > 0) {
-            continue;
-        }
-
-        if (distance < min_distance) {
-            min_distance = distance;
-            answer = node;
-        }
+    bool operator<(const NodeDistPair& other)const{
+        return this->dist < other.dist || (this->dist == other.dist && this->node < other.node);
     }
+};
 
-    return answer;
-}
-
-void update_neighbors(std::map<int, std::map<int, int>>& edge_length, int seed_node, std::map<int, int>& distance_to_s){
+void update_neighbors(std::map<int, std::map<int, int>>& edge_length, int seed_node, std::map<int, int>& distance_to_s, std::set<NodeDistPair>&to_be_visited){
     for (auto& [neighbor, length_to_neighbor] : edge_length[seed_node]) {
         int new_distance = distance_to_s[seed_node] + length_to_neighbor;
-        if (distance_to_s.count(neighbor) == 0 || new_distance < distance_to_s[neighbor]) {
+        if(distance_to_s.count(neighbor) == 0){
             distance_to_s[neighbor] = new_distance;
+            to_be_visited.insert(NodeDistPair{.node = neighbor, .dist = new_distance});
+        }
+        else if(new_distance < distance_to_s[neighbor]){
+            to_be_visited.erase(NodeDistPair{.node = neighbor, .dist = distance_to_s[neighbor]});
+            distance_to_s[neighbor] = new_distance;
+            to_be_visited.insert(NodeDistPair{.node = neighbor, .dist = new_distance});
         }
     }
 }
 
 std::map<int, int> calculate_min_path(std::map<int, std::map<int, int>>& edge_length, int start){
+    std::set<NodeDistPair> to_be_visited;
     std::map<int, int> distance_to_s;
     distance_to_s[start] = 0;
+    to_be_visited.insert(NodeDistPair{.node = start, .dist = 0});
 
-    std::unordered_set<int> visited;
-
-    while (true) {
-        int seed_node = find_non_visited_node_closest_to_s(distance_to_s, visited);
-        if (seed_node < 0) {
-            break;
-        }
-        visited.insert(seed_node);
-
-        update_neighbors(edge_length, seed_node, distance_to_s);
+    while (! to_be_visited.empty()) {
+        int seed_node = to_be_visited.begin()->node;
+        to_be_visited.erase(to_be_visited.begin());
+        update_neighbors(edge_length, seed_node, distance_to_s, to_be_visited);
     }
-
     return distance_to_s;
 }
 
@@ -110,6 +103,6 @@ int main(){
         edge_length[start][end] = l;
         edge_length[end][start] = l;
     }
-    std::cout << find_min_dist_through_markets(markets, edge_length);
+    std::cout << find_min_dist_through_markets(markets, edge_length) << "\r\n";
     return 0;
 }
