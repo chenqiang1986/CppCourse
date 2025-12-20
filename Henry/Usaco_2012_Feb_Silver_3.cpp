@@ -110,6 +110,6 @@ int main(){
         edge_length[start][end] = l;
         edge_length[end][start] = l;
     }
-    std::cout << find_min_dist_through_markets(markets, edge_length) << std::endl;
+    std::cout << find_min_dist_through_markets(markets, edge_length);
     return 0;
 }
