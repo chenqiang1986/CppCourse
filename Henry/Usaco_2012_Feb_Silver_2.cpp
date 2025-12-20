@@ -3,9 +3,9 @@
 #include <vector>
 
 int choose(int n, int m){
-    int numerator = 1;
-    int denominator = 1;
-    for(int i = n; i > n - m; i--){
+    unsigned long long numerator = 1;
+    unsigned long long denominator = 1;
+    for(int i = n - m + 1; i <= n; i++){
         numerator *= i;
     }
     for(int i = 1; i <= m; i++){
@@ -18,16 +18,13 @@ int main(){
     int n, k;
     std::cin >> n >> k;
     int num_of_0s = 0;
-    int running_num_of_nums = 0;
+    unsigned long long running_num_of_nums = 0;
     while(true){
-        int choose_thing = choose(num_of_0s + k - 1, k - 1);
-        if(running_num_of_nums + choose_thing > n){
+        unsigned long long choose_thing = choose(num_of_0s + k - 1, k - 1);
+        if(running_num_of_nums + choose_thing >= n){
             break;
         }
         running_num_of_nums += choose_thing;
-        if(running_num_of_nums == n){
-            break;
-        }
         num_of_0s++;
     }
     std::vector<int> space_to_num_of_0s(k, 0);
