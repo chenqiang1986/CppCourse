@@ -59,10 +59,8 @@ int find_length(std::vector<Rectangle>& rectangles, int col, int col2){
 int find_total_area(std::vector<Rectangle>& rectangles, std::vector<int>& cols){
     int total_area = 0;
     for(int i = 0; i < cols.size() - 1; i++){
-        std::cout << i + 1  << ":";
         int width = cols[i + 1] - cols[i];
         int length = find_length(rectangles, cols[i], cols[i + 1]);
-        std::cout << length << std::endl;
         total_area += width * length;
     }
     return total_area;
