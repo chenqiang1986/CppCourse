@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <string>
@@ -34,20 +35,20 @@ void execute_flip(std::map<Interval, int>& interval_to_flips, const Interval& fl
     }
 }
 
-void execute_query(std::map<Interval, int>& interval_to_flips, int pos, Interval& search_zone, int flips){
-    flips += interval_to_flips[search_zone];
+int execute_query(std::map<Interval, int>& interval_to_flips, int pos, Interval& search_zone){
+    int flips_at_layer = interval_to_flips[search_zone];
     if(search_zone.start == search_zone.end && search_zone.end == pos){
-        std::cout << (flips) % 2 << std::endl;
+        return flips_at_layer;
     }
     else{
         Interval search_left;
         Interval search_right;
         split(search_zone, search_left, search_right);
         if(pos >= search_left.start && pos <= search_left.end){
-            execute_query(interval_to_flips, pos, search_left, flips);
+            return execute_query(interval_to_flips, pos, search_left) + flips_at_layer;
         }
         else{
-            execute_query(interval_to_flips, pos, search_right, flips);
+            return execute_query(interval_to_flips, pos, search_right) + flips_at_layer;
         }
     }
 }
@@ -69,7 +70,8 @@ int main(){
         else if(action == "Query"){
             int pos;
             std::cin >> pos;
-            execute_query(interval_to_flips, pos, whole, 0);
+            int output = execute_query(interval_to_flips, pos, whole);
+            std::cout << output % 2 << std::endl;
         }
     }
     return 0;
