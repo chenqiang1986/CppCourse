@@ -4,7 +4,7 @@ Given a list of closed intervals \{\[a<sub>n</sub>, b<sub>n</sub>\]\}.
 Find the max size of the subset of the given list, such that no intervals in the subset overlaps any other.
 
 ## Input
-First line: One integer N ($N \le 1000$)
+First line: One integer N ($N \le 10000$)
 
 2nd ~ (N+1)th line: Two Integers a<sub>i</sub> b<sub>i</sub>
 
