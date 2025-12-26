@@ -20,43 +20,41 @@ struct Interval{
 struct IntervalSet{
     std::set<Interval> intervals;
 
+    std::set<Interval>::iterator find_leftmost_intersect(const Interval& interval){
+        std::set<Interval>::iterator left = this->intervals.lower_bound(Interval{.start = interval.start, .end = interval.start});
+        std::set<Interval>::iterator first = left != intervals.begin() ? std::next(left, -1) : intervals.end();
+        std::set<Interval>::iterator second = left;
+        if(first != intervals.end() && first->has_intersection(interval)){
+            return first;
+        }
+        if(second != intervals.end() && second->has_intersection(interval)){
+            return second;
+        }
+        return intervals.end();
+    }
+
+    std::set<Interval>::iterator find_rightmost_intersect(const Interval& interval){
+        std::set<Interval>::iterator right = this->intervals.lower_bound(Interval{.start = interval.end, .end = interval.end});
+        std::set<Interval>::iterator first = right != intervals.begin() ? std::next(right, -1) : intervals.end();
+        if(first != intervals.end() && first->has_intersection(interval)){
+            return first;
+        }
+        return intervals.end();
+    }
+
     void insert(const Interval& interval){
         if(this->intervals.size() == 0){
             this->intervals.insert(interval);
             return;
         }
-        std::set<Interval>::iterator left = this->intervals.lower_bound(Interval{.start = interval.start, .end = interval.start});
-        if(left == this->intervals.begin()){
-            if(! left->has_intersection(interval)){
-                this->intervals.insert(interval);
-                return;
-            }
-        }
-        else{
-            left--;
-            if(! left->has_intersection(interval)){
-                left++;
-                if(left == this->intervals.end() || ! left->has_intersection(interval)){
-                    this->intervals.insert(interval);
-                    return;
-                }
-            }
-        }
-        std::set<Interval>::iterator right = this->intervals.lower_bound(Interval{.start = interval.end, .end = interval.end});
-        if(right == this->intervals.begin()){
+        std::set<Interval>::iterator left = find_leftmost_intersect(interval);
+        std::set<Interval>::iterator right = find_rightmost_intersect(interval);
+        if(left == intervals.end() || right == intervals.end()){
             this->intervals.insert(interval);
             return;
         }
-        else{
-            right--;
-            if(! right->has_intersection(interval)){
-                this->intervals.insert(interval);
-                return;
-            }
-        }
         Interval replacement = Interval{.start = std::min(interval.start, left->start), .end = std::max(interval.end, right->end)};
-        right++;
-        intervals.erase(left, right);
+        intervals.erase(left, std::next(right, 1));
         intervals.insert(replacement);
     }
 
@@ -64,37 +62,14 @@ struct IntervalSet{
         if(this->intervals.size() == 0){
             return;
         }
-        std::set<Interval>::iterator left = this->intervals.lower_bound(Interval{.start = interval.start, .end = interval.start});
-        if(left == this->intervals.begin()){
-            if(! left->has_intersection(interval)){
-                return;
-            }
-        }
-        else{
-            left--;
-            if(! left->has_intersection(interval)){
-                left++;
-                if(left == this->intervals.end() || ! left->has_intersection(interval)){
-                    return;
-                }
-            }
-        }
-        std::set<Interval>::iterator right = this->intervals.lower_bound(Interval{.start = interval.end, .end = interval.end});
-        if(right == this->intervals.begin()){
+        std::set<Interval>::iterator left = find_leftmost_intersect(interval);
+        std::set<Interval>::iterator right = find_rightmost_intersect(interval);
+        if(left == intervals.end() || right == intervals.end()){
             return;
-        }
-        else{
-            right--;
-            if(! right->has_intersection(interval)){
-                return;
-            }
         }
         Interval changed_left = Interval{.start = left->start, .end = interval.start};
         Interval changed_right = Interval{.start = interval.end, .end = right->end};
-        if(right != intervals.end()){
-            right++;
-        }
-        intervals.erase(left, right);
+        intervals.erase(left, std::next(right, 1));
         if(changed_left.start < changed_left.end){
             intervals.insert(changed_left);
         }
