@@ -16,35 +16,32 @@ struct MinMax{
     }
 };
 
-int find_min_width(std::map<int, MinMax>& x_to_min_max, int min_time){
+int find_min_width(std::map<int, MinMax>& x_to_min_max, std::set<int>& xs, int min_time){
     int min_width = 1000001;
-    int start = 0;
-    int end = 0;
-    std::map<int, MinMax>::iterator it = x_to_min_max.end();
-    it--;
-    int max_pos_end = it->first;
+    std::map<int, MinMax>::iterator start = x_to_min_max.begin();
+    std::map<int, MinMax>::iterator end = x_to_min_max.begin();
     std::set<int> mins;
     std::set<int> maxes;
-    mins.insert(x_to_min_max[start].min);
-    maxes.insert(x_to_min_max[start].max);
-    while(end <= max_pos_end){
+    mins.insert(start->second.min);
+    maxes.insert(start->second.max);
+    while(end != x_to_min_max.end()){
         int min = *(mins.begin());
         std::set<int>::iterator it = maxes.end();
         it--;
         int max = *it;
         if(max - min >= min_time){
-            min_width = std::min(min_width, end - start);
+            min_width = std::min(min_width, end->first - start->first);
             if(min_width == 0){
                 return 0;
             }
-            mins.erase(x_to_min_max[start].min);
-            maxes.erase(x_to_min_max[start].max);
+            mins.erase(start->second.min);
+            maxes.erase(start->second.max);
             start++;
         }
         else{
             end++;
-            mins.insert(x_to_min_max[end].min);
-            maxes.insert(x_to_min_max[end].max);
+            mins.insert(end->second.min);
+            maxes.insert(end->second.max);
         }
     }
     return min_width;
@@ -53,10 +50,12 @@ int find_min_width(std::map<int, MinMax>& x_to_min_max, int min_time){
 int main(){
     int n, d;
     std::cin >> n >> d;
+    std::set<int> xs;
     std::map<int, MinMax> x_to_min_max;
     for(int i = 0; i < n; i++){
         int x, num;
         std::cin >> x >> num;
+        xs.insert(x);
         if(x_to_min_max.count(x) == 0){
             x_to_min_max[x] = MinMax{.min = num, .max = num};
         }
@@ -64,7 +63,7 @@ int main(){
             x_to_min_max[x].insert(num);
         }
     }
-    int min_width = find_min_width(x_to_min_max, d);
+    int min_width = find_min_width(x_to_min_max, xs, d);
     std::cout << (min_width != 1000001 ? min_width : -1) << std::endl;
     return 0;
 }
