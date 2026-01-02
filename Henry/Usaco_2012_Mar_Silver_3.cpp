@@ -48,10 +48,31 @@ int cost(std::vector<Earth>& earths, int index, int extra_earth, int add, int re
     return output;
 }
 
+int cost_no_pre(std::map<int, int>& plot_to_diff, int index, int extra_earth, int add, int remove, int move, std::map<CacheKey, int>& cache){
+    CacheKey cache_key = CacheKey{.index = index, .extra_earth = extra_earth};
+    if(cache.count(cache_key) != 0){
+        return cache[cache_key];
+    }
+    if(index == plot_to_diff.size() - 1){
+        int earth_amount = extra_earth + plot_to_diff[index];
+        int output = std::abs(earth_amount) * (earth_amount > 0 ? add : remove);
+        cache[cache_key] = output;
+        return output;
+    }
+    int sell_or_buy_cost = (plot_to_diff[index] > 0 ? add : remove);
+    int output = 2100000000;
+    for(int i = 0; i <= std::abs(plot_to_diff[index]); i++){
+        int new_extra_earth = extra_earth + plot_to_diff[index] - i * (plot_to_diff[index] > 0 ? 1 : -1);
+        output = std::min(output, i * sell_or_buy_cost + cost_no_pre(plot_to_diff, index + 1, new_extra_earth, add, remove, move, cache) + std::abs(new_extra_earth) * move);
+    }
+    cache[cache_key] = output;
+    return output;
+}
+
 int find_min_cost(std::map<int, int>& plot_to_diff, int add, int remove, int move){
     std::vector<Earth> earths = find_earths(plot_to_diff);
     std::map<CacheKey, int> cache;
-    return cost(earths, 0, 0, add, remove, move, cache);
+    return cost_no_pre(plot_to_diff, 0, 0, add, remove, move, cache);
 }
 
 int main(){
