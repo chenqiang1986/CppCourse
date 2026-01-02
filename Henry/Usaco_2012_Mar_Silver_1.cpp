@@ -51,9 +51,6 @@ int calculate_min_path(std::set<Coord>& haybales, Coord start, Coord end){
 
     while (! to_be_visited.empty()) {
         Coord seed_node = to_be_visited.begin()->node;
-        if(seed_node.row == end.row && seed_node.col == end.col){
-            return distance_to_s[end];
-        }
         to_be_visited.erase(to_be_visited.begin());
         update_neighbors(haybales, seed_node, distance_to_s, to_be_visited);
     }
