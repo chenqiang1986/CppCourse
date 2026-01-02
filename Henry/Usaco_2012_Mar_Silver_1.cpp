@@ -30,7 +30,7 @@ void update_neighbors(std::set<Coord>& haybales, Coord seed_node, std::map<Coord
         if(neighbor.row < 0 || neighbor.row > 1000 || neighbor.col < 0 || neighbor.col > 1000){
             continue;
         }
-        int new_distance = distance_to_s[seed_node] + haybales.count(neighbor);
+        int new_distance = distance_to_s[seed_node] + (haybales.count(neighbor) != 0 ? 1 : 0);
         if(distance_to_s.count(neighbor) == 0){
             distance_to_s[neighbor] = new_distance;
             to_be_visited.insert(NodeDistPair{.node = neighbor, .dist = new_distance});
