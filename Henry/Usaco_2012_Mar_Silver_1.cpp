@@ -50,6 +50,13 @@ int calculate_min_path(std::set<Coord>& haybales, Coord start, Coord end){
     to_be_visited.insert(NodeDistPair{.node = start, .dist = 0});
     while(! to_be_visited.empty()){
         Coord seed_node = to_be_visited.begin()->node;
+        if(distance_to_s.count(Coord{.row = 0, .col = -1}) != 0 && 
+            distance_to_s.count(Coord{.row = 0, .col = 1}) != 0 &&
+            distance_to_s.count(Coord{.row = -1, .col = 0}) != 0 &&
+            distance_to_s.count(Coord{.row = 1, .col = 0}) != 0 
+    ){
+            return distance_to_s[end];
+        }
         to_be_visited.erase(to_be_visited.begin());
         update_neighbors(haybales, seed_node, distance_to_s, to_be_visited);
     }
