@@ -27,7 +27,7 @@ std::vector<Earth> find_earths(std::map<int, int>& plot_to_diff){
     return earths;
 }
 
-int cost(std::vector<Earth>& earths, int index, int extra_earth, int add, int remove, int move, std::map<CacheKey, int> cache){
+int cost(std::vector<Earth>& earths, int index, int extra_earth, int add, int remove, int move, std::map<CacheKey, int>& cache){
     CacheKey cache_key = CacheKey{.index = index, .extra_earth = extra_earth};
     if(cache.count(cache_key) != 0){
         return cache[cache_key];
