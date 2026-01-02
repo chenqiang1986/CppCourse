@@ -24,8 +24,8 @@ struct NodeDistPair{
     }
 };
 
-void update_neighbors(std::set<Coord>& haybales, Coord seed_node, std::map<Coord, int>& distance_to_s, std::set<NodeDistPair>&to_be_visited){
-    for (int i = 0; i < 4; i++) {
+void update_neighbors(std::set<Coord>& haybales, Coord seed_node, std::map<Coord, int>& distance_to_s, std::set<NodeDistPair>& to_be_visited){
+    for(int i = 0; i < 4; i++){
         Coord neighbor = Coord{.row = seed_node.row + drow[i], .col = seed_node.col + dcol[i]};
         if(neighbor.row < 0 || neighbor.row > 1000 || neighbor.col < 0 || neighbor.col > 1000){
             continue;
@@ -48,9 +48,24 @@ int calculate_min_path(std::set<Coord>& haybales, Coord start, Coord end){
     std::map<Coord, int> distance_to_s;
     distance_to_s[start] = 0;
     to_be_visited.insert(NodeDistPair{.node = start, .dist = 0});
-
-    while (! to_be_visited.empty()) {
+    while(! to_be_visited.empty()){
         Coord seed_node = to_be_visited.begin()->node;
+        if(seed_node.row == end.row && seed_node.col == end.col){
+            bool broken_out = false;
+            for(int i = 0; i < 4; i++){
+                Coord neighbor = Coord{.row = seed_node.row + drow[i], .col = seed_node.col + dcol[i]};
+                if(neighbor.row < 0 || neighbor.row > 1000 || neighbor.col < 0 || neighbor.col > 1000){
+                    continue;
+                }
+                if(distance_to_s.count(neighbor) == 0){
+                    broken_out = true;
+                    break;
+                }
+            }
+            if(! broken_out){
+                return distance_to_s[end];
+            }
+        }
         to_be_visited.erase(to_be_visited.begin());
         update_neighbors(haybales, seed_node, distance_to_s, to_be_visited);
     }
