@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include <vector>
 
 struct Coord{
     int row;
