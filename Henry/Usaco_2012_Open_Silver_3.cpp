@@ -1,11 +1,11 @@
 #include <iostream>
 #include <map>
 
-int find_intersection_count(std::map<int, int>& speeds, int laps){
+long find_intersection_count(std::map<int, int>& speeds, int laps){
     std::map<int, int>::iterator it = speeds.end();
     it--;
     int max_speed = it->first;
-    int intersections = 0;
+    long intersections = 0;
     while(true){
         if(it == speeds.begin()){
             break;
