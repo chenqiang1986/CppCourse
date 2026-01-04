@@ -16,7 +16,7 @@ int find_min_height(std::vector<Book>& books, int start_index, int max_width, st
     }
     int running_width = 0;
     int running_level_height = 0;
-    int min_height = 2000000;
+    int min_height = 2100000000;
     for(int i = start_index; i < books.size(); i++){
         running_width += books[i].width;
         running_level_height = std::max(running_level_height, books[i].height);
