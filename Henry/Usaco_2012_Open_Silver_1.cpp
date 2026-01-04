@@ -16,6 +16,9 @@ struct Shifts{
     Shifts operator+(const Shifts& other)const{
         return Shifts{.row_shift = this->row_shift + other.row_shift, .col_shift = this->col_shift + other.col_shift};
     }
+    Shifts operator-(const Shifts& other)const{
+        return Shifts{.row_shift = this->row_shift - other.row_shift, .col_shift = this->col_shift - other.col_shift};
+    }
 };
 
 Shifts BASIC_SHIFTS[] = {
@@ -115,13 +118,32 @@ std::set<Shifts> find_possible_moves(std::vector<Shifts>& curr_shifts, std::vect
     return possible_moves;
 }
 
+std::vector<Shifts> normalize(const std::vector<Shifts>& shifts){
+    std::vector<Shifts> result;
+    Shifts base = shifts[0];
+    for(int i = 0; i < shifts.size(); i++){
+        result.push_back(shifts[i] - base);
+    }
+    return result;
+}
+
+bool is_in_range(std::vector<Shifts> shifts){
+    for(int i = 0; i < shifts.size(); i++){
+        if(std::abs(shifts[i].row_shift) > 10 || std::abs(shifts[i].col_shift) > 10){
+            return false;
+        }
+    }
+    return true;
+}
+
 void find_all_possible_moves(std::deque<std::vector<Shifts>>& bfs, std::map<std::vector<Shifts>, int>& shifts_to_min_moves, std::vector<Shifts>& curr_shifts, std::vector<Block>& blocks){
     for(int i = 0; i < 3; i++){
         std::set<Shifts> possible_shifts = find_possible_moves(curr_shifts, blocks, i);
         for(auto& shift : possible_shifts){
             std::vector<Shifts> new_shifts = curr_shifts;
             new_shifts[i] = new_shifts[i] + shift;
-            if(shifts_to_min_moves.count(new_shifts) == 0 && (new_shifts[i].row_shift < 10 && new_shifts[i].row_shift > -10) && (new_shifts[i].col_shift < 10 && new_shifts[i].col_shift > -10)){
+            new_shifts = normalize(new_shifts);
+            if(shifts_to_min_moves.count(new_shifts) == 0 && is_in_range(new_shifts)){
                 bfs.push_back(new_shifts);
                 shifts_to_min_moves[new_shifts] = shifts_to_min_moves[curr_shifts] + 1;
             }
