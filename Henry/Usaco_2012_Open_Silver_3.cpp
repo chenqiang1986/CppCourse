@@ -6,20 +6,13 @@ long find_intersection_count(std::map<int, int>& speeds, int laps){
     it--;
     int max_speed = it->first;
     long intersections = 0;
-    while(true){
-        if(it == speeds.begin()){
-            break;
-        }
-        std::map<int, int>::iterator pair_it = it;
-        pair_it--;
-        while(true){
-            intersections += (laps * (it->first - pair_it->first) / max_speed) * it->second * pair_it->second;
-            if(pair_it == speeds.begin()){
-                break;
+    for(auto& [speed_one, count_one] : speeds){
+        for(auto& [speed_two, count_two] : speeds){
+            if(speed_one < speed_two){
+                long one_to_one = (laps * (speed_two - speed_one) / max_speed);
+                intersections += one_to_one * count_one * count_two;
             }
-            pair_it--;
         }
-        it--;
     }
     return intersections;
 }
