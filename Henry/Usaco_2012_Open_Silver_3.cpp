@@ -135,6 +135,7 @@ long find_intersection_count(std::map<long, long>& speed_to_count, long laps, lo
     OST remainder_tree (0, fastest - 1);
     for(auto& [speed, remainder] : remainders){
         if(remainder == fastest - 1){
+            remainder_tree.insert(remainder, speed_to_count[speed]);
             continue;
         }
         Interval search_interval(remainder + 1, fastest - 1);
