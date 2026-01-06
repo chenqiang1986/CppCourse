@@ -1,7 +1,9 @@
+#include <algorithm>
 #include <iostream>
 #include <map>
-#include <unordered_map>
 #include <stdexcept>
+#include <unordered_map>
+#include <vector>
 
 struct Interval{
     long start;
