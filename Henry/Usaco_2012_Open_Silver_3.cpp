@@ -69,10 +69,10 @@ class OST{
         this->interval_to_count[Interval(start, end)] = 0;
     }
 
-    void insert(long n, long count){
+    void insert(long n){
         Interval curr_interval = base;
         while(true){
-            interval_to_count[curr_interval] += count;
+            interval_to_count[curr_interval]++;
             if(curr_interval.start == curr_interval.end){
                 break;
             }
@@ -96,51 +96,31 @@ class OST{
     }
 };
 
-void find_smaller_greater(std::map<long, long>& speed_to_count, std::map<long, long>& nums_smaller_than, std::map<long, long>& nums_greater_than, long total_count){
-    long smaller_running = 0;
-    for(auto& [speed, count] : speed_to_count){
-        nums_smaller_than[speed] = smaller_running;
-        smaller_running += count;
-    }
-    for(auto& [speed, count] : nums_smaller_than){
-        nums_greater_than[speed] = total_count - count - speed_to_count[speed];
+void find_quotients_and_remainders(std::vector<long>& speeds, long laps, long fastest, std::vector<long>& quotients, std::vector<long>& remainders){
+    for(int i = 0; i < speeds.size(); i++){
+        quotients.push_back((speeds[i] * laps) / fastest);
+        remainders.push_back((speeds[i] * laps) % fastest);
     }
 }
 
-long find_greatest_key(std::map<long, long>& some_map){
-    std::map<long, long>::iterator it = some_map.end();
-    it--;
-    return it->first;
-}
-
-void find_quotients_and_remainders(std::map<long, long>& speed_to_count, long laps, long fastest, std::map<long, long>& quotients, std::map<long, long>& remainders){
-    for(auto& [speed, count] : speed_to_count){
-        quotients[speed] = (speed * laps) / fastest;
-        remainders[speed] = (speed * laps) - fastest * quotients[speed];
-    }
-}
-
-long find_intersection_count(std::map<long, long>& speed_to_count, long laps, long total_count){
-    std::map<long, long> nums_smaller_than;
-    std::map<long, long> nums_greater_than;
-    find_smaller_greater(speed_to_count, nums_smaller_than, nums_greater_than, total_count);
-    long fastest = find_greatest_key(speed_to_count);
-    std::map<long, long> quotients;
-    std::map<long, long> remainders;
-    find_quotients_and_remainders(speed_to_count, laps, fastest, quotients, remainders);
+long find_intersection_count(std::vector<long>& speeds, long laps, long total_count){
+    long fastest = speeds[speeds.size() - 1];
+    std::vector<long> quotients;
+    std::vector<long> remainders;
+    find_quotients_and_remainders(speeds, laps, fastest, quotients, remainders);
     long intersections = 0;
-    for(auto& [speed, count] : speed_to_count){
-        intersections += (nums_smaller_than[speed] - nums_greater_than[speed]) * quotients[speed];
+    for(int i = 0; i < speeds.size(); i++){
+        intersections += ((2 * i) - (total_count - 1)) * quotients[i];
     }
     OST remainder_tree (0, fastest - 1);
-    for(auto& [speed, remainder] : remainders){
-        if(remainder == fastest - 1){
-            remainder_tree.insert(remainder, speed_to_count[speed]);
+    for(int i = 0; i < remainders.size(); i++){
+        if(remainders[i] == fastest - 1){
+            remainder_tree.insert(remainders[i]);
             continue;
         }
-        Interval search_interval(remainder + 1, fastest - 1);
+        Interval search_interval(remainders[i] + 1, fastest - 1);
         intersections -= remainder_tree.count(search_interval);
-        remainder_tree.insert(remainder, speed_to_count[speed]);
+        remainder_tree.insert(remainders[i]);
     }
     return intersections;
 }
@@ -149,13 +129,14 @@ int main(){
     try{
         long n, l, c;
         std::cin >> n >> l >> c;
-        std::map<long, long> speed_to_count;
+        std::vector<long> speeds;
         for(long i = 0; i < n; i++){
             long speed;
             std::cin >> speed;
-            speed_to_count[speed]++;
+            speeds.push_back(speed);
         }
-        std::cout << find_intersection_count(speed_to_count, l, n) << std::endl;
+        std::sort(speeds.begin(), speeds.end());
+        std::cout << find_intersection_count(speeds, l, n) << std::endl;
         return 0;
     }
     catch (std::runtime_error err) {
