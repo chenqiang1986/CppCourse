@@ -4,15 +4,15 @@
 #include <stdexcept>
 
 struct Interval{
-    int start;
-    int end;
+    long start;
+    long end;
 
     Interval(){
         this->start = 0;
         this->end = 0;
     }
 
-    Interval(int start, int end){
+    Interval(long start, long end){
         if(start > end){
             throw std::runtime_error("Critical Error: Interval given is wrong");
         }
@@ -28,22 +28,22 @@ struct Interval{
 template<>
 struct std::hash<Interval> {
     size_t operator()(const Interval& interval)const{
-        return std::hash<int>()(interval.start) ^ (std::hash<int>()(interval.end) << 1);
+        return std::hash<long>()(interval.start) ^ (std::hash<long>()(interval.end) << 1);
     }
 };
 
 class OST{
   private:
     Interval base;
-    std::unordered_map<Interval, int> interval_to_count;
+    std::unordered_map<Interval, long> interval_to_count;
 
     void split(const Interval& curr_interval, Interval& left, Interval& right){
-        int mid = (curr_interval.start + curr_interval.end) / 2;
+        long mid = (curr_interval.start + curr_interval.end) / 2;
         left = Interval(curr_interval.start, mid);
         right = Interval(mid + 1, curr_interval.end);
     }
 
-    int count(Interval interval, Interval curr_interval){
+    long count(Interval interval, Interval curr_interval){
         if(curr_interval == interval){
             if(interval_to_count.count(curr_interval) == 0){
                 return 0;
@@ -64,12 +64,12 @@ class OST{
         return count(interval_left, left) + count(interval_right, right);
     }
   public:
-    OST(int start, int end){
+    OST(long start, long end){
         this->base = Interval(start, end);
         this->interval_to_count[Interval(start, end)] = 0;
     }
 
-    void insert(int n, int count){
+    void insert(long n, long count){
         Interval curr_interval = base;
         while(true){
             interval_to_count[curr_interval] += count;
@@ -91,7 +91,7 @@ class OST{
         }
     }
     
-    int count(Interval interval){
+    long count(Interval interval){
         return count(interval, base);
     }
 };
