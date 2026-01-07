@@ -1,7 +1,7 @@
 # Left Most In Range
 Implement a class to maintain a set of 2-d coordinates $(x, y)$.
 The class must have the following two functions:
-1. insert(x,y), it will insert $(x,y)$ into the set. $($-$10000000 \le x,y \le 10000000)$
+1. insert(x,y), it will insert $(x,y)$ into the set. $(-10000000 \le x,y \le 10000000)$
 2. left_most_in_range(y_min, y_max) should return the minimum value of $x$ for the points in the current set such that $y_\{min} \le y \le y_{max}$.
 
 ## Input
