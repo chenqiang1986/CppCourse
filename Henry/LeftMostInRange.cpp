@@ -15,7 +15,7 @@ struct Interval{
 
     Interval(int start, int end){
         if(start > end){
-            throw std::runtime_error("Critical Error: Interval given is wrong");
+            throw std::runtime_error("Critical Error: Interval given is wrong " + std::to_string(start) + " " + std::to_string(end));
         }
         this->start = start;
         this->end = end;
@@ -38,7 +38,8 @@ struct OST{
     std::unordered_map<Interval, int> interval_to_min;
 
     void split(const Interval& curr_interval, Interval& left, Interval& right){
-        int mid = (curr_interval.start + curr_interval.end) / 2;
+        int rem = (curr_interval.start + curr_interval.end) % 2;
+        int mid = (curr_interval.start + curr_interval.end - std::abs(rem)) / 2;
         left = Interval(curr_interval.start, mid);
         right = Interval(mid + 1, curr_interval.end);
     }
@@ -104,7 +105,7 @@ int main(){
     try{
         int n;
         std::cin >> n;
-        OST ost(-10000000, 10000000);
+        OST ost(-20000000, 20000000);
         for(int i = 0; i < n; i++){
             std::string action;
             int first;
@@ -126,6 +127,7 @@ int main(){
         return 0;
     }
     catch(std::runtime_error err){
+        std::cout << err.what() << std::endl;
         return 1;
     }
 }
