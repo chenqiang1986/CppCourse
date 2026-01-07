@@ -1,0 +1,7 @@
+6
+Insert 1000 9
+Query 0 100
+Insert 10000 90
+Query 0 1000
+Insert 100000 900
+Query 0 10000
