@@ -113,7 +113,7 @@ int main(){
             if(action == "Insert"){
                 ost.insert(second, first);
             }
-            else if(action == "Query"){\
+            else if(action == "Query"){
                 int min_x = ost.min(Interval(first, second));
                 if(min_x != 10000001){
                     std::cout << min_x  << std::endl;
