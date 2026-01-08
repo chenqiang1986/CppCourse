@@ -11,6 +11,6 @@ for i in range(n):
     action_whole = input()
     split_action = action_whole.split(" ")
     if split_action[0] == "Input":
-        points.append([split_action[1], split_action[2]])
+        points.append([int(split_action[1]), int(split_action[2])])
     else:
-        print(count(points, split_action[1], split_action[2], split_action[3], split_action[4]))
+        print(count(points, int(split_action[1]), int(split_action[2]), int(split_action[3]), int(split_action[4])))
