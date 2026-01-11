@@ -20,8 +20,8 @@ struct Expression{
         long only_shift_start = interval.start - this->constant;
         long only_shift_end = interval.end - this->constant;
         if(this->coefficient == -1){
-            output.start = -only_shift_start;
-            output.end = -only_shift_end;
+            output.start = -only_shift_end;
+            output.end = -only_shift_start;
         }
         else{
             output.start = only_shift_start;
