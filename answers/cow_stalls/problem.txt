@@ -1,3 +1,5 @@
+https://usaco.org/index.php?page=viewproblem2&cpid=1085
+
 USACA Bronze 2021_Jan 3.
 
 Farmer John has N cows (1≤N≤20) of heights a1…aN. His barn has N stalls with max height limits b1…bN (so for example, if b5=17, then a cow of height at most 17 can reside in stall 5). In how many distinct ways can Farmer John arrange his cows so that each cow is in a different stall, and so that the height limit is satisfied for every stall?
