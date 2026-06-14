@@ -23,9 +23,9 @@ The third line contains the post-order traversal of the tree.
 1 2 3 \
 2 0 4 \
 3 0 0 \
-4 0 0 \
+4 0 0 
 
 ### Output
 1 2 4 3 \
 2 4 1 3 \
-4 2 3 1 \
+4 2 3 1 
