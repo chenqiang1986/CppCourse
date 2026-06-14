@@ -15,7 +15,7 @@ One line of N numbers, the post-order traversal of the tree.
 ## Example
 
 ### Input
-4
+4\
 1 2 4 3 \
 2 4 1 3 
 
